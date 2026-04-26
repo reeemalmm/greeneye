@@ -602,28 +602,290 @@
       color: var(--soft);
       font-size: 13px;
     }
+    .auth-page {
+  min-height: calc(100vh - 150px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 34px;
+}
+
+.auth-page.active {
+  display: flex;
+}
+
+.auth-shell {
+  width: min(1180px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 34px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(11,16,13,.92), rgba(7,11,9,.92));
+  box-shadow: var(--shadow);
+}
+
+.auth-card,
+.auth-brand {
+  min-height: 760px;
+  padding: 56px;
+}
+
+.auth-card {
+  background: linear-gradient(180deg, rgba(10,15,12,.88), rgba(7,11,9,.92));
+  border-right: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(180deg, rgba(5,10,7,.55), rgba(5,10,7,.82)),
+    url('https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80') center/cover;
+}
+
+.auth-brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(153,211,90,.18), transparent 18%),
+    radial-gradient(circle at 30% 80%, rgba(153,211,90,.12), transparent 20%);
+  pointer-events: none;
+}
+
+.auth-brand-content,
+.auth-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-kicker {
+  color: #cfeeb0;
+  font-size: 14px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.auth-card h2 {
+  margin: 0 0 14px;
+  font-size: clamp(44px, 5vw, 62px);
+  line-height: .98;
+  letter-spacing: -.05em;
+}
+
+.auth-card p {
+  margin: 0 0 34px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.auth-form {
+  display: grid;
+  gap: 18px;
+}
+
+.auth-field {
+  display: grid;
+  gap: 10px;
+}
+
+.auth-field label {
+  color: #cfeeb0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 20px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+  font-size: 17px;
+}
+
+.auth-form input::placeholder {
+  color: rgba(244,247,242,.38);
+}
+
+.auth-form input:focus {
+  border-color: rgba(153,211,90,.45);
+  box-shadow: 0 0 0 3px rgba(153,211,90,.08);
+}
+
+.auth-main-btn {
+  width: 100%;
+  padding: 18px 22px;
+  border: 0;
+  border-radius: 18px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #102008;
+  background: linear-gradient(135deg, #d6f3b9, #99d35a);
+  margin-top: 8px;
+}
+
+.auth-main-btn:hover {
+  transform: translateY(-2px);
+}
+
+.auth-bottom {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.auth-bottom button {
+  background: none;
+  border: 0;
+  color: #aee676;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  font-weight: 700;
+}
+
+.auth-message {
+  min-height: 24px;
+  margin-top: 12px;
+  color: #ffd3d3;
+  font-size: 14px;
+}
+
+.auth-brand-logo {
+  font-size: clamp(58px, 6vw, 86px);
+  line-height: .95;
+  font-weight: 800;
+  letter-spacing: -.05em;
+  margin: 0 0 18px;
+}
+
+.auth-brand-logo span {
+  color: var(--green);
+}
+
+.auth-brand-text {
+  max-width: 420px;
+  color: rgba(244,247,242,.86);
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.auth-feature-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.auth-feature {
+  width: 120px;
+  min-height: 110px;
+  padding: 18px 14px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  text-align: center;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.auth-feature-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+@media (max-width: 1100px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand {
+    min-height: 420px;
+  }
+
+  .auth-card,
+  .auth-brand {
+    padding: 32px 24px;
+  }
+
+  .auth-card {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+}
+
+    .user-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .user-email {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-links .ghost-btn,
+.auth-links .primary-btn {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.auth-links .primary-btn {
+  box-shadow: none;
+}
+
+    .hidden {
+      display: none !important;
+    }
 
     @media (max-width: 1100px) {
-      .hero-grid,
-      .page-grid,
-      .status-grid,
-      .reports-layout,
-      .advisor-layout {
-        grid-template-columns: 1fr;
-      }
+  .hero-grid,
+  .page-grid,
+  .status-grid,
+  .reports-layout,
+  .advisor-layout {
+    grid-template-columns: 1fr;
+  }
 
-      .sidebar {
-        position: static;
-      }
+  .sidebar {
+    position: static;
+  }
 
-      .plant-visual {
-        min-height: 420px;
-      }
-    }
+  .plant-visual {
+    min-height: 420px;
+  }
+}
 
     @media (max-width: 760px) {
       .app { width: calc(100% - 14px); margin: 7px auto; border-radius: 24px; }
-      .topbar, .hero-page, .page, .footer-note { padding-left: 18px; padding-right: 18px; }
+      .topbar, .hero-page, .page, .auth-page, .footer-note { padding-left: 18px; padding-right: 18px; }
       .hero-copy h1 { font-size: 38px; }
       .section-title { font-size: 32px; }
       .metric { font-size: 72px; }
@@ -644,6 +906,15 @@
         <button data-page="reports">Reports</button>
         <button data-page="advisor">AI Advisor</button>
       </nav>
+            <div class="user-bar">
+  <div class="auth-links" id="authLinks">
+    <button class="ghost-btn" onclick="showPage('signin')">Sign In</button>
+    <button class="primary-btn" onclick="showPage('register')">Register</button>
+  </div>
+
+  <span class="user-email hidden" id="userEmail">Not signed in</span>
+  <button class="ghost-btn hidden" id="logoutBtn">Logout</button>
+</div>
     </header>
 
     <section id="home" class="hero-page active">
@@ -930,6 +1201,125 @@
       </div>
     </section>
 
+    <section id="signin" class="auth-page">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-card-content">
+        <div class="auth-kicker">Sign In</div>
+        <h2>Access your account</h2>
+        <p>Sign in to continue to your GreenEye dashboard.</p>
+
+        <form class="auth-form" id="signinForm">
+          <div class="auth-field">
+            <label for="signinEmail">Email address</label>
+            <input type="email" id="signinEmail" placeholder="Enter your email" required />
+          </div>
+
+          <div class="auth-field">
+            <label for="signinPassword">Password</label>
+            <input type="password" id="signinPassword" placeholder="Enter your password" required />
+          </div>
+
+          <button type="submit" class="auth-main-btn">Sign In</button>
+        </form>
+
+        <div class="auth-message" id="signinMessage"></div>
+
+        <div class="auth-bottom">
+          Don’t have an account?
+          <button type="button" onclick="showPage('register')">Create one</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-brand">
+      <div class="auth-brand-content">
+        <div class="auth-brand-logo">Green<span>Eye</span></div>
+        <div class="auth-brand-text">
+          AI-powered plant monitoring for a healthier tomorrow.
+        </div>
+
+        <div class="auth-feature-row">
+          <div class="auth-feature">
+            <span class="auth-feature-icon">🌿</span>
+            Smart Monitoring
+          </div>
+          <div class="auth-feature">
+            <span class="auth-feature-icon">📈</span>
+            Real-time Data
+          </div>
+          <div class="auth-feature">
+            <span class="auth-feature-icon">🤖</span>
+            AI Insights
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="register" class="auth-page">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-card-content">
+        <div class="auth-kicker">Register</div>
+        <h2>Create account</h2>
+        <p>Create your GreenEye account to save and view sensor data.</p>
+
+        <form class="auth-form" id="registerForm">
+          <div class="auth-field">
+            <label for="registerEmail">Email address</label>
+            <input type="email" id="registerEmail" placeholder="Enter your email" required />
+          </div>
+
+          <div class="auth-field">
+            <label for="registerPassword">Password</label>
+            <input type="password" id="registerPassword" placeholder="Enter your password" required />
+          </div>
+
+          <div class="auth-field">
+            <label for="registerConfirmPassword">Confirm password</label>
+            <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required />
+          </div>
+
+          <button type="submit" class="auth-main-btn">Create account</button>
+        </form>
+
+        <div class="auth-message" id="registerMessage"></div>
+
+        <div class="auth-bottom">
+          Already have an account?
+          <button type="button" onclick="showPage('signin')">Sign in</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-brand">
+      <div class="auth-brand-content">
+        <div class="auth-brand-logo">Green<span>Eye</span></div>
+        <div class="auth-brand-text">
+          Monitor your plants, review reports, and unlock AI-powered recommendations in one place.
+        </div>
+
+        <div class="auth-feature-row">
+          <div class="auth-feature">
+            <span class="auth-feature-icon">💧</span>
+            Water Tracking
+          </div>
+          <div class="auth-feature">
+            <span class="auth-feature-icon">☀️</span>
+            Light Status
+          </div>
+          <div class="auth-feature">
+            <span class="auth-feature-icon">🌡️</span>
+            Climate Control
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     <section id="sensor" class="page">
       <div class="page-grid">
         <aside class="sidebar">
@@ -945,7 +1335,10 @@
               <div class="eyebrow">Live reading</div>
               <h2 class="section-title" id="sensorTitle">Soil moisture sensor</h2>
             </div>
-            <div class="status-chip"><span class="status-light"></span><span>Unconnected</span></div>
+            <div class="status-chip">
+  <span class="status-light" id="sensorStatusLight"></span>
+  <span id="sensorStatusText">Unconnected</span>
+</div>
           </div>
 
           <div class="status-grid">
@@ -1110,64 +1503,46 @@
     <div class="footer-note"></div>
   </div>
 
-  <script>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getDatabase,
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyAEvGlRKyTUZm_VRlwWcoNi-1eoM69MT_g",
+  authDomain: "smartfarm-ae.firebaseapp.com",
+  databaseURL: "https://smartfarm-ae-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "smartfarm-ae",
+  storageBucket: "smartfarm-ae.firebasestorage.app",
+  messagingSenderId: "332693524850",
+  appId: "1:332693524850:web:55983e08bd4b3954e14deb",
+  measurementId: "G-31YQHHXZZ8"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
     const navButtons = document.querySelectorAll('.nav button');
-    const pages = document.querySelectorAll('.hero-page, .page');
+    const pages = document.querySelectorAll('.hero-page, .page, .auth-page');
 
-    function showPage(pageId) {
-      pages.forEach(page => page.classList.remove('active'));
-      navButtons.forEach(btn => btn.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-      const activeButton = document.querySelector(`.nav button[data-page="${pageId}"]`);
-      if (activeButton) activeButton.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    const userEmail = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-    navButtons.forEach(btn => {
-      btn.addEventListener('click', () => showPage(btn.dataset.page));
-    });
-
-    const sensors = [
-      {
-        name: 'Soil moisture sensor',
-        status: 'Unconnected',
-        value: '90%',
-        label: 'Moisture level',
-        state: 'Optimal',
-        progress: '90%',
-        last: '8h',
-        lastLabel: 'Since last update',
-        trend: 'Stable',
-        trendLabel: 'Current condition',
-        note: 'Soil moisture is at a healthy level for Tree #1.'
-      },
-      {
-        name: 'Light sensor',
-        status: 'Unconnected',
-        value: '70%',
-        label: 'Light exposure',
-        state: 'Below target',
-        progress: '70%',
-        last: '2h',
-        lastLabel: 'Since last update',
-        trend: 'Low',
-        trendLabel: 'Current condition',
-        note: 'Light exposure is slightly below the preferred range and may need adjustment.'
-      },
-      {
-        name: 'Temperature sensor',
-        status: 'Unconnected',
-        value: '22°C',
-        label: 'Temperature',
-        state: 'Balanced',
-        progress: '73%',
-        last: '35m',
-        lastLabel: 'Since last update',
-        trend: 'Normal',
-        trendLabel: 'Current condition',
-        note: 'Temperature conditions are stable for the plant environment.'
-      }
-    ];
+    const signinForm = document.getElementById('signinForm');
+    const registerForm = document.getElementById('registerForm');
+    const signinMessage = document.getElementById('signinMessage');
+    const registerMessage = document.getElementById('registerMessage');
 
     const sensorList = document.getElementById('sensorList');
     const sensorTitle = document.getElementById('sensorTitle');
@@ -1180,19 +1555,83 @@
     const sensorTrend = document.getElementById('sensorTrend');
     const sensorTrendLabel = document.getElementById('sensorTrendLabel');
     const sensorNote = document.getElementById('sensorNote');
+    const sensorStatusText = document.getElementById('sensorStatusText');
+    const sensorStatusLight = document.getElementById('sensorStatusLight');
+
+    let sensors = [];
+
+    function showPage(pageId) {
+  const protectedPages = ['sensor', 'reports', 'advisor'];
+  const user = auth.currentUser;
+
+  pages.forEach(page => page.classList.remove('active'));
+  navButtons.forEach(btn => btn.classList.remove('active'));
+
+  if (protectedPages.includes(pageId) && !user) {
+    document.getElementById('signin').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) targetPage.classList.add('active');
+
+  const activeButton = document.querySelector(`.nav button[data-page="${pageId}"]`);
+  if (activeButton) activeButton.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+    window.showPage = showPage;
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => showPage(btn.dataset.page));
+    });
+
+    function setStatusChip(status) {
+      const connected = status === 'Connected';
+      sensorStatusText.textContent = status || 'Unconnected';
+      sensorStatusLight.style.background = connected ? 'var(--green)' : 'var(--red)';
+      sensorStatusLight.style.boxShadow = connected
+        ? '0 0 0 5px rgba(153,211,90,.15)'
+        : '0 0 0 5px rgba(240,107,107,.15)';
+    }
 
     function renderSensorList(activeIndex = 0) {
       sensorList.innerHTML = '';
+
+      if (!sensors.length) {
+        sensorList.innerHTML = `<div class="note">No sensor data found.</div>`;
+        sensorTitle.textContent = 'No sensor selected';
+        sensorValue.textContent = '--';
+        sensorLabel.textContent = 'Waiting for data';
+        sensorState.textContent = '--';
+        sensorBar.style.setProperty('--progress', '0%');
+        sensorLast.textContent = '--';
+        sensorLastLabel.textContent = 'Since last update';
+        sensorTrend.textContent = '--';
+        sensorTrendLabel.textContent = 'Current condition';
+        sensorNote.textContent = 'Sensor data will appear here after loading from Firebase.';
+        setStatusChip('Unconnected');
+        return;
+      }
+
       sensors.forEach((sensor, index) => {
         const item = document.createElement('div');
         item.className = `sensor-item ${index === activeIndex ? 'active' : ''}`;
+        const connected = sensor.status === 'Connected';
+
         item.innerHTML = `
           <div>
             <strong>${index + 1}. ${sensor.name}</strong>
             <small>${sensor.status}</small>
           </div>
-          <div class="dot" style="background:${sensor.status === 'Connected' ? 'var(--green)' : 'var(--red)'}; box-shadow: 0 0 0 6px ${sensor.status === 'Connected' ? 'rgba(153,211,90,.14)' : 'rgba(240,107,107,.15)'}"></div>
+          <div class="dot"
+            style="background:${connected ? 'var(--green)' : 'var(--red)'};
+                   box-shadow: 0 0 0 6px ${connected ? 'rgba(153,211,90,.14)' : 'rgba(240,107,107,.15)'}">
+          </div>
         `;
+
         item.addEventListener('click', () => selectSensor(index));
         sensorList.appendChild(item);
       });
@@ -1200,21 +1639,109 @@
 
     function selectSensor(index) {
       const sensor = sensors[index];
-      sensorTitle.textContent = sensor.name;
-      sensorValue.textContent = sensor.value;
-      sensorLabel.textContent = sensor.label;
-      sensorState.textContent = sensor.state;
-      sensorBar.style.setProperty('--progress', sensor.progress);
-      sensorLast.textContent = sensor.last;
-      sensorLastLabel.textContent = sensor.lastLabel;
-      sensorTrend.textContent = sensor.trend;
-      sensorTrendLabel.textContent = sensor.trendLabel;
-      sensorNote.textContent = sensor.note;
+      if (!sensor) return;
+
+      sensorTitle.textContent = sensor.name || '--';
+      sensorValue.textContent = sensor.value || '--';
+      sensorLabel.textContent = sensor.label || '--';
+      sensorState.textContent = sensor.state || '--';
+      sensorBar.style.setProperty('--progress', sensor.progress || '0%');
+      sensorLast.textContent = sensor.last || '--';
+      sensorLastLabel.textContent = sensor.lastLabel || 'Since last update';
+      sensorTrend.textContent = sensor.trend || '--';
+      sensorTrendLabel.textContent = sensor.trendLabel || 'Current condition';
+      sensorNote.textContent = sensor.note || 'No additional note.';
+      setStatusChip(sensor.status || 'Unconnected');
       renderSensorList(index);
     }
 
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      registerMessage.textContent = '';
+
+      const email = document.getElementById('registerEmail').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+      if (password !== confirmPassword) {
+        registerMessage.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        registerMessage.style.color = '#d5efba';
+        registerMessage.textContent = 'Account created successfully.';
+        registerForm.reset();
+        showPage('sensor');
+      } catch (error) {
+        registerMessage.style.color = '#ffd3d3';
+        registerMessage.textContent = error.message;
+      }
+    });
+
+    signinForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      signinMessage.textContent = '';
+
+      const email = document.getElementById('signinEmail').value.trim();
+      const password = document.getElementById('signinPassword').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        signinMessage.style.color = '#d5efba';
+        signinMessage.textContent = 'Signed in successfully.';
+        signinForm.reset();
+        showPage('sensor');
+      } catch (error) {
+        signinMessage.style.color = '#ffd3d3';
+        signinMessage.textContent = error.message;
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      showPage('home');
+    });
+
+    function listenToSensors() {
+  const sensorsRef = ref(db, `users/testUser/sensors`);
+
+      onValue(sensorsRef, (snapshot) => {
+        const data = snapshot.val();
+
+        if (!data) {
+          sensors = [];
+          renderSensorList();
+          return;
+        }
+
+        sensors = Object.values(data);
+        renderSensorList(0);
+        selectSensor(0);
+      });
+    }
+
+    const authLinks = document.getElementById('authLinks');
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userEmail.textContent = user.email;
+    userEmail.classList.remove('hidden');
+    logoutBtn.classList.remove('hidden');
+    authLinks.classList.add('hidden');
+    listenToSensors();
+  } else {
+    userEmail.textContent = 'Not signed in';
+    userEmail.classList.add('hidden');
+    logoutBtn.classList.add('hidden');
+    authLinks.classList.remove('hidden');
+    sensors = [];
     renderSensorList();
-    selectSensor(0);
+  }
+});
+
+    renderSensorList();
 
     const onBtn = document.getElementById('autoOn');
     const offBtn = document.getElementById('autoOff');
@@ -1247,20 +1774,12 @@
 Date: ${year}-${month}-${day}
 
 Plant: Tree #1
-Sensor: Soil moisture sensor
-Status: Unconnected
-Moisture value: 90%
-Light value: 70%
-Temperature: 22°C
-
-Action history:
-- Rejected increase of water
-- Approved lighting review
-- Turned auto adjust off
-- Approved soil check
+Sensor: ${sensors[0]?.name || 'N/A'}
+Status: ${sensors[0]?.status || 'N/A'}
+Value: ${sensors[0]?.value || 'N/A'}
 
 Summary:
-This is a generated placeholder report for the selected day.`;
+This is a generated report for the selected day.`;
       const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
