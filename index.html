@@ -1533,6 +1533,9 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
+    console.log('Firebase project:', firebaseConfig.projectId);
+console.log('Firebase auth domain:', firebaseConfig.authDomain);
+
     const navButtons = document.querySelectorAll('.nav button');
     const pages = document.querySelectorAll('.hero-page, .page, .auth-page');
 
@@ -1675,9 +1678,17 @@
         registerForm.reset();
         showPage('sensor');
       } catch (error) {
-        registerMessage.style.color = '#ffd3d3';
-        registerMessage.textContent = error.message;
-      }
+  console.error('REGISTER ERROR:', error.code, error.message);
+  registerMessage.style.color = '#ffd3d3';
+
+  if (error.code === 'auth/email-already-in-use') {
+    registerMessage.textContent = 'This email already has an account. Please sign in.';
+  } else if (error.code === 'auth/weak-password') {
+    registerMessage.textContent = 'Password should be at least 6 characters.';
+  } else {
+    registerMessage.textContent = error.message;
+  }
+}
     });
 
     signinForm.addEventListener('submit', async (e) => {
