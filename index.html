@@ -1561,8 +1561,60 @@ console.log('Firebase auth domain:', firebaseConfig.authDomain);
     const sensorStatusText = document.getElementById('sensorStatusText');
     const sensorStatusLight = document.getElementById('sensorStatusLight');
 
-    let sensors = [];
-
+let sensors = [
+  {
+    name: 'Soil moisture sensor',
+    value: 'Wet',
+    status: 'Connected',
+    label: 'Soil condition',
+    state: 'Wet',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Wet',
+    trendLabel: 'Current condition',
+    note: 'Soil moisture is currently wet.'
+  },
+  {
+    name: 'Light sensor',
+    value: 'Light',
+    status: 'Connected',
+    label: 'Light condition',
+    state: 'Light',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Light',
+    trendLabel: 'Current condition',
+    note: 'Light sensor currently detects light.'
+  },
+  {
+    name: 'Temperature sensor',
+    value: '32°C',
+    status: 'Connected',
+    label: 'Temperature level',
+    state: 'High',
+    progress: '85%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'High',
+    trendLabel: 'Current condition',
+    note: 'Temperature is currently high.'
+  },
+  {
+    name: 'Water level sensor',
+    value: 'Full',
+    status: 'Connected',
+    label: 'Water level',
+    state: 'Full',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Full',
+    trendLabel: 'Tank status',
+    note: 'Water tank is currently full.'
+  }
+];
     function showPage(pageId) {
   const protectedPages = ['sensor', 'reports', 'advisor'];
   const user = auth.currentUser;
@@ -1718,20 +1770,82 @@ console.log('Firebase auth domain:', firebaseConfig.authDomain);
     function listenToSensors() {
   const sensorsRef = ref(db, `users/testUser/sensors`);
 
-      onValue(sensorsRef, (snapshot) => {
-        const data = snapshot.val();
+  onValue(sensorsRef, (snapshot) => {
+    const data = snapshot.val();
 
-        if (!data) {
-          sensors = [];
-          renderSensorList();
-          return;
-        }
-
-        sensors = Object.values(data);
-        renderSensorList(0);
-        selectSensor(0);
-      });
+    if (!data) {
+      renderSensorList(0);
+      selectSensor(0);
+      return;
     }
+
+    sensors = [
+      {
+        name: 'Soil moisture sensor',
+        value: data.soilMoisture?.value || 'Dry',
+        status: data.soilMoisture?.status || 'Connected',
+        label: 'Soil condition',
+        state: data.soilMoisture?.value || 'Dry',
+        progress: data.soilMoisture?.value === 'Wet' ? '100%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.soilMoisture?.value || 'Dry',
+        trendLabel: 'Current condition',
+        note: data.soilMoisture?.value === 'Wet'
+          ? 'Soil moisture is currently wet.'
+          : 'Soil moisture is currently dry.'
+      },
+      {
+        name: 'Light sensor',
+        value: data.light?.value || 'Dark',
+        status: data.light?.status || 'Connected',
+        label: 'Light condition',
+        state: data.light?.value || 'Dark',
+        progress: data.light?.value === 'Light' ? '100%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.light?.value || 'Dark',
+        trendLabel: 'Current condition',
+        note: data.light?.value === 'Light'
+          ? 'Light sensor currently detects light.'
+          : 'Light sensor currently detects darkness.'
+      },
+      {
+        name: 'Temperature sensor',
+        value: data.temperature?.value || '0°C',
+        status: data.temperature?.status || 'Connected',
+        label: 'Temperature level',
+        state: data.temperature?.state || 'Low',
+        progress: data.temperature?.state === 'High' ? '85%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.temperature?.state || 'Low',
+        trendLabel: 'Current condition',
+        note: data.temperature?.state === 'High'
+          ? 'Temperature is currently high.'
+          : 'Temperature is currently low.'
+      },
+      {
+        name: 'Water level sensor',
+        value: data.waterLevel?.value || 'Empty',
+        status: data.waterLevel?.status || 'Connected',
+        label: 'Water level',
+        state: data.waterLevel?.value || 'Empty',
+        progress: data.waterLevel?.value === 'Full' ? '100%' : '20%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.waterLevel?.value || 'Empty',
+        trendLabel: 'Tank status',
+        note: data.waterLevel?.value === 'Full'
+          ? 'Water tank is currently full.'
+          : 'Water tank is currently empty.'
+      }
+    ];
+
+    renderSensorList(0);
+    selectSensor(0);
+  });
+}
 
     const authLinks = document.getElementById('authLinks');
 
@@ -1747,8 +1861,8 @@ onAuthStateChanged(auth, (user) => {
     userEmail.classList.add('hidden');
     logoutBtn.classList.add('hidden');
     authLinks.classList.remove('hidden');
-    sensors = [];
-    renderSensorList();
+    renderSensorList(0);
+selectSensor(0);
   }
 });
 
@@ -1785,9 +1899,12 @@ onAuthStateChanged(auth, (user) => {
 Date: ${year}-${month}-${day}
 
 Plant: Tree #1
-Sensor: ${sensors[0]?.name || 'N/A'}
-Status: ${sensors[0]?.status || 'N/A'}
-Value: ${sensors[0]?.value || 'N/A'}
+
+Sensors:
+- Soil Moisture: ${sensors[0]?.value || 'N/A'}
+- Light: ${sensors[1]?.value || 'N/A'}
+- Temperature: ${sensors[2]?.value || 'N/A'} (${sensors[2]?.state || 'N/A'})
+- Water Level: ${sensors[3]?.value || 'N/A'}
 
 Summary:
 This is a generated report for the selected day.`;
