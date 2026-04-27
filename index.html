@@ -1351,10 +1351,11 @@
             </article>
 
             <article class="glass">
-              <div class="eyebrow">Details</div>
-              <div class="note" id="sensorNote">
-  Sensor data will appear here.
-</div>
+  <div class="eyebrow">Details</div>
+  <div class="note" id="sensorNote">
+    Sensor data will appear here.
+  </div>
+</article>
               <div class="note" id="sensorNote">
                 Soil moisture is at a healthy level for Tree #1.
               </div>
@@ -1540,7 +1541,6 @@ console.log('Firebase auth domain:', firebaseConfig.authDomain);
     const sensorTitle = document.getElementById('sensorTitle');
     const sensorValue = document.getElementById('sensorValue');
     const sensorLabel = document.getElementById('sensorLabel');
-    const sensorState = document.getElementById('sensorState');
     const sensorNote = document.getElementById('sensorNote');
     const sensorStatusText = document.getElementById('sensorStatusText');
     const sensorStatusLight = document.getElementById('sensorStatusLight');
@@ -1559,19 +1559,13 @@ let sensors = [
     trendLabel: 'Current condition',
     note: 'Soil moisture is currently wet.'
   },
-  {
-    name: 'Light sensor',
-    value: 'Light',
-    status: 'Connected',
-    label: 'Light condition',
-    state: 'Light',
-    progress: '100%',
-    last: 'Live',
-    lastLabel: 'Current reading',
-    trend: 'Light',
-    trendLabel: 'Current condition',
-    note: 'Light sensor currently detects light.'
-  },
+ {
+  name: 'Light sensor',
+  value: 'High',
+  status: 'Connected',
+  label: 'Light level',
+  note: 'Light level is currently high.'
+},
   {
     name: 'Temperature sensor',
     value: '32°C',
@@ -1677,20 +1671,16 @@ let sensors = [
     }
 
     function selectSensor(index) {
-      const sensor = sensors[index];
-      if (!sensor) return;
+  const sensor = sensors[index];
+  if (!sensor) return;
 
-      sensorTitle.textContent = sensor.name || '--';
-      sensorValue.textContent = sensor.value || '--';
-sensorLabel.textContent = sensor.label || 'Condition';
-      sensorLast.textContent = sensor.last || '--';
-      sensorLastLabel.textContent = sensor.lastLabel || 'Since last update';
-      sensorTrend.textContent = sensor.trend || '--';
-      sensorTrendLabel.textContent = sensor.trendLabel || 'Current condition';
-      sensorNote.textContent = sensor.note || 'No additional note.';
-      setStatusChip(sensor.status || 'Unconnected');
-      renderSensorList(index);
-    }
+  sensorTitle.textContent = sensor.name || '--';
+  sensorValue.textContent = sensor.value || '--';
+  sensorLabel.textContent = sensor.label || 'Condition';
+  sensorNote.textContent = sensor.note || 'No additional note.';
+  setStatusChip(sensor.status || 'Unconnected');
+  renderSensorList(index);
+}
 
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1778,20 +1768,14 @@ sensorLabel.textContent = sensor.label || 'Condition';
           : 'Soil moisture is currently dry.'
       },
       {
-        name: 'Light sensor',
-        value: data.light?.value || 'Dark',
-        status: data.light?.status || 'Connected',
-        label: 'Light condition',
-        state: data.light?.value || 'Dark',
-        progress: data.light?.value === 'Light' ? '100%' : '35%',
-        last: 'Live',
-        lastLabel: 'Current reading',
-        trend: data.light?.value || 'Dark',
-        trendLabel: 'Current condition',
-        note: data.light?.value === 'Light'
-          ? 'Light sensor currently detects light.'
-          : 'Light sensor currently detects darkness.'
-      },
+  name: 'Light sensor',
+  value: data.light?.value || 'Low',
+  status: data.light?.status || 'Connected',
+  label: 'Light level',
+  note: data.light?.value === 'High'
+    ? 'Light level is currently high.'
+    : 'Light level is currently low.'
+},
       {
         name: 'Temperature sensor',
         value: data.temperature?.value || '0°C',
