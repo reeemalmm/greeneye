@@ -1345,27 +1345,16 @@
             <article class="glass">
               <div class="eyebrow">Current value</div>
               <div class="metric" id="sensorValue">90%</div>
-              <div class="progress-wrap">
-                <div class="progress-label">
-                  <span id="sensorLabel">Moisture level</span>
-                  <span id="sensorState">Optimal</span>
-                </div>
-                <div class="progress-bar" id="sensorBar"><span></span></div>
-              </div>
+              <div style="margin-top: 18px;">
+  <span id="sensorLabel">Condition</span>
+</div>
             </article>
 
             <article class="glass">
               <div class="eyebrow">Details</div>
-              <div class="mini-stats">
-                <div class="mini">
-                  <strong id="sensorLast">8h</strong>
-                  <span id="sensorLastLabel">Since last update</span>
-                </div>
-                <div class="mini">
-                  <strong id="sensorTrend">Stable</strong>
-                  <span id="sensorTrendLabel">Current condition</span>
-                </div>
-              </div>
+              <div class="note" id="sensorNote">
+  Sensor data will appear here.
+</div>
               <div class="note" id="sensorNote">
                 Soil moisture is at a healthy level for Tree #1.
               </div>
@@ -1552,11 +1541,6 @@ console.log('Firebase auth domain:', firebaseConfig.authDomain);
     const sensorValue = document.getElementById('sensorValue');
     const sensorLabel = document.getElementById('sensorLabel');
     const sensorState = document.getElementById('sensorState');
-    const sensorBar = document.getElementById('sensorBar');
-    const sensorLast = document.getElementById('sensorLast');
-    const sensorLastLabel = document.getElementById('sensorLastLabel');
-    const sensorTrend = document.getElementById('sensorTrend');
-    const sensorTrendLabel = document.getElementById('sensorTrendLabel');
     const sensorNote = document.getElementById('sensorNote');
     const sensorStatusText = document.getElementById('sensorStatusText');
     const sensorStatusLight = document.getElementById('sensorStatusLight');
@@ -1698,9 +1682,7 @@ let sensors = [
 
       sensorTitle.textContent = sensor.name || '--';
       sensorValue.textContent = sensor.value || '--';
-      sensorLabel.textContent = sensor.label || '--';
-      sensorState.textContent = sensor.state || '--';
-      sensorBar.style.setProperty('--progress', sensor.progress || '0%');
+sensorLabel.textContent = sensor.label || 'Condition';
       sensorLast.textContent = sensor.last || '--';
       sensorLastLabel.textContent = sensor.lastLabel || 'Since last update';
       sensorTrend.textContent = sensor.trend || '--';
