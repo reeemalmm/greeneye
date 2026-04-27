@@ -1345,16 +1345,30 @@
             <article class="glass">
               <div class="eyebrow">Current value</div>
               <div class="metric" id="sensorValue">90%</div>
-              <div style="margin-top: 18px;">
-  <span id="sensorLabel">Condition</span>
-</div>
+              <div class="progress-wrap">
+                <div class="progress-label">
+                  <span id="sensorLabel">Moisture level</span>
+                  <span id="sensorState">Optimal</span>
+                </div>
+                <div class="progress-bar" id="sensorBar"><span></span></div>
+              </div>
             </article>
 
             <article class="glass">
-  <div class="eyebrow">Details</div>
- <div class="note" id="sensorNote">
-  Sensor data will appear here.
-</div>
+              <div class="eyebrow">Details</div>
+              <div class="mini-stats">
+                <div class="mini">
+                  <strong id="sensorLast">8h</strong>
+                  <span id="sensorLastLabel">Since last update</span>
+                </div>
+                <div class="mini">
+                  <strong id="sensorTrend">Stable</strong>
+                  <span id="sensorTrendLabel">Current condition</span>
+                </div>
+              </div>
+              <div class="note" id="sensorNote">
+                Soil moisture is at a healthy level for Tree #1.
+              </div>
             </article>
           </div>
         </div>
@@ -1537,6 +1551,12 @@ console.log('Firebase auth domain:', firebaseConfig.authDomain);
     const sensorTitle = document.getElementById('sensorTitle');
     const sensorValue = document.getElementById('sensorValue');
     const sensorLabel = document.getElementById('sensorLabel');
+    const sensorState = document.getElementById('sensorState');
+    const sensorBar = document.getElementById('sensorBar');
+    const sensorLast = document.getElementById('sensorLast');
+    const sensorLastLabel = document.getElementById('sensorLastLabel');
+    const sensorTrend = document.getElementById('sensorTrend');
+    const sensorTrendLabel = document.getElementById('sensorTrendLabel');
     const sensorNote = document.getElementById('sensorNote');
     const sensorStatusText = document.getElementById('sensorStatusText');
     const sensorStatusLight = document.getElementById('sensorStatusLight');
@@ -1547,20 +1567,38 @@ let sensors = [
     value: 'Wet',
     status: 'Connected',
     label: 'Soil condition',
+    state: 'Wet',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Wet',
+    trendLabel: 'Current condition',
     note: 'Soil moisture is currently wet.'
   },
   {
     name: 'Light sensor',
-    value: 'High',
+    value: 'Light',
     status: 'Connected',
-    label: 'Light level',
-    note: 'Light level is currently high.'
+    label: 'Light condition',
+    state: 'Light',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Light',
+    trendLabel: 'Current condition',
+    note: 'Light sensor currently detects light.'
   },
   {
     name: 'Temperature sensor',
-    value: 'High',
+    value: '32°C',
     status: 'Connected',
-    label: 'Temperature condition',
+    label: 'Temperature level',
+    state: 'High',
+    progress: '85%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'High',
+    trendLabel: 'Current condition',
     note: 'Temperature is currently high.'
   },
   {
@@ -1568,6 +1606,12 @@ let sensors = [
     value: 'Full',
     status: 'Connected',
     label: 'Water level',
+    state: 'Full',
+    progress: '100%',
+    last: 'Live',
+    lastLabel: 'Current reading',
+    trend: 'Full',
+    trendLabel: 'Tank status',
     note: 'Water tank is currently full.'
   }
 ];
@@ -1649,16 +1693,22 @@ let sensors = [
     }
 
     function selectSensor(index) {
-  const sensor = sensors[index];
-  if (!sensor) return;
+      const sensor = sensors[index];
+      if (!sensor) return;
 
-  sensorTitle.textContent = sensor.name || '--';
-  sensorValue.textContent = sensor.value || '--';
-  sensorLabel.textContent = sensor.label || 'Condition';
-  sensorNote.textContent = sensor.note || 'No additional note.';
-  setStatusChip(sensor.status || 'Unconnected');
-  renderSensorList(index);
-}
+      sensorTitle.textContent = sensor.name || '--';
+      sensorValue.textContent = sensor.value || '--';
+      sensorLabel.textContent = sensor.label || '--';
+      sensorState.textContent = sensor.state || '--';
+      sensorBar.style.setProperty('--progress', sensor.progress || '0%');
+      sensorLast.textContent = sensor.last || '--';
+      sensorLastLabel.textContent = sensor.lastLabel || 'Since last update';
+      sensorTrend.textContent = sensor.trend || '--';
+      sensorTrendLabel.textContent = sensor.trendLabel || 'Current condition';
+      sensorNote.textContent = sensor.note || 'No additional note.';
+      setStatusChip(sensor.status || 'Unconnected');
+      renderSensorList(index);
+    }
 
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1717,17 +1767,17 @@ let sensors = [
       showPage('home');
     });
 
-    function selectSensor(index) {
-  const sensor = sensors[index];
-  if (!sensor) return;
+    function listenToSensors() {
+  const sensorsRef = ref(db, `users/testUser/sensors`);
 
-  sensorTitle.textContent = sensor.name || '--';
-  sensorValue.textContent = sensor.value || '--';
-  sensorLabel.textContent = sensor.label || 'Condition';
-  sensorNote.textContent = sensor.note || 'No additional note.';
-  setStatusChip(sensor.status || 'Unconnected');
-  renderSensorList(index);
-}
+  onValue(sensorsRef, (snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) {
+      renderSensorList(0);
+      selectSensor(0);
+      return;
+    }
 
     sensors = [
       {
@@ -1735,24 +1785,42 @@ let sensors = [
         value: data.soilMoisture?.value || 'Dry',
         status: data.soilMoisture?.status || 'Connected',
         label: 'Soil condition',
+        state: data.soilMoisture?.value || 'Dry',
+        progress: data.soilMoisture?.value === 'Wet' ? '100%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.soilMoisture?.value || 'Dry',
+        trendLabel: 'Current condition',
         note: data.soilMoisture?.value === 'Wet'
           ? 'Soil moisture is currently wet.'
           : 'Soil moisture is currently dry.'
       },
       {
         name: 'Light sensor',
-        value: data.light?.value || 'Low',
+        value: data.light?.value || 'Dark',
         status: data.light?.status || 'Connected',
-        label: 'Light level',
-        note: data.light?.value === 'High'
-          ? 'Light level is currently high.'
-          : 'Light level is currently low.'
+        label: 'Light condition',
+        state: data.light?.value || 'Dark',
+        progress: data.light?.value === 'Light' ? '100%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.light?.value || 'Dark',
+        trendLabel: 'Current condition',
+        note: data.light?.value === 'Light'
+          ? 'Light sensor currently detects light.'
+          : 'Light sensor currently detects darkness.'
       },
       {
         name: 'Temperature sensor',
-        value: data.temperature?.state || 'Low',
+        value: data.temperature?.value || '0°C',
         status: data.temperature?.status || 'Connected',
-        label: 'Temperature condition',
+        label: 'Temperature level',
+        state: data.temperature?.state || 'Low',
+        progress: data.temperature?.state === 'High' ? '85%' : '35%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.temperature?.state || 'Low',
+        trendLabel: 'Current condition',
         note: data.temperature?.state === 'High'
           ? 'Temperature is currently high.'
           : 'Temperature is currently low.'
@@ -1762,6 +1830,12 @@ let sensors = [
         value: data.waterLevel?.value || 'Empty',
         status: data.waterLevel?.status || 'Connected',
         label: 'Water level',
+        state: data.waterLevel?.value || 'Empty',
+        progress: data.waterLevel?.value === 'Full' ? '100%' : '20%',
+        last: 'Live',
+        lastLabel: 'Current reading',
+        trend: data.waterLevel?.value || 'Empty',
+        trendLabel: 'Tank status',
         note: data.waterLevel?.value === 'Full'
           ? 'Water tank is currently full.'
           : 'Water tank is currently empty.'
