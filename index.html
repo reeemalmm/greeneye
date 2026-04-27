@@ -1352,13 +1352,9 @@
 
             <article class="glass">
   <div class="eyebrow">Details</div>
-  <div class="note" id="sensorNote">
-    Sensor data will appear here.
-  </div>
-</article>
-              <div class="note" id="sensorNote">
-                Soil moisture is at a healthy level for Tree #1.
-              </div>
+ <div class="note" id="sensorNote">
+  Sensor data will appear here.
+</div>
             </article>
           </div>
         </div>
@@ -1551,32 +1547,20 @@ let sensors = [
     value: 'Wet',
     status: 'Connected',
     label: 'Soil condition',
-    state: 'Wet',
-    progress: '100%',
-    last: 'Live',
-    lastLabel: 'Current reading',
-    trend: 'Wet',
-    trendLabel: 'Current condition',
     note: 'Soil moisture is currently wet.'
   },
- {
-  name: 'Light sensor',
-  value: 'High',
-  status: 'Connected',
-  label: 'Light level',
-  note: 'Light level is currently high.'
-},
+  {
+    name: 'Light sensor',
+    value: 'High',
+    status: 'Connected',
+    label: 'Light level',
+    note: 'Light level is currently high.'
+  },
   {
     name: 'Temperature sensor',
-    value: '32°C',
+    value: 'High',
     status: 'Connected',
-    label: 'Temperature level',
-    state: 'High',
-    progress: '85%',
-    last: 'Live',
-    lastLabel: 'Current reading',
-    trend: 'High',
-    trendLabel: 'Current condition',
+    label: 'Temperature condition',
     note: 'Temperature is currently high.'
   },
   {
@@ -1584,12 +1568,6 @@ let sensors = [
     value: 'Full',
     status: 'Connected',
     label: 'Water level',
-    state: 'Full',
-    progress: '100%',
-    last: 'Live',
-    lastLabel: 'Current reading',
-    trend: 'Full',
-    trendLabel: 'Tank status',
     note: 'Water tank is currently full.'
   }
 ];
@@ -1739,17 +1717,17 @@ let sensors = [
       showPage('home');
     });
 
-    function listenToSensors() {
-  const sensorsRef = ref(db, `users/testUser/sensors`);
+    function selectSensor(index) {
+  const sensor = sensors[index];
+  if (!sensor) return;
 
-  onValue(sensorsRef, (snapshot) => {
-    const data = snapshot.val();
-
-    if (!data) {
-      renderSensorList(0);
-      selectSensor(0);
-      return;
-    }
+  sensorTitle.textContent = sensor.name || '--';
+  sensorValue.textContent = sensor.value || '--';
+  sensorLabel.textContent = sensor.label || 'Condition';
+  sensorNote.textContent = sensor.note || 'No additional note.';
+  setStatusChip(sensor.status || 'Unconnected');
+  renderSensorList(index);
+}
 
     sensors = [
       {
@@ -1757,36 +1735,24 @@ let sensors = [
         value: data.soilMoisture?.value || 'Dry',
         status: data.soilMoisture?.status || 'Connected',
         label: 'Soil condition',
-        state: data.soilMoisture?.value || 'Dry',
-        progress: data.soilMoisture?.value === 'Wet' ? '100%' : '35%',
-        last: 'Live',
-        lastLabel: 'Current reading',
-        trend: data.soilMoisture?.value || 'Dry',
-        trendLabel: 'Current condition',
         note: data.soilMoisture?.value === 'Wet'
           ? 'Soil moisture is currently wet.'
           : 'Soil moisture is currently dry.'
       },
       {
-  name: 'Light sensor',
-  value: data.light?.value || 'Low',
-  status: data.light?.status || 'Connected',
-  label: 'Light level',
-  note: data.light?.value === 'High'
-    ? 'Light level is currently high.'
-    : 'Light level is currently low.'
-},
+        name: 'Light sensor',
+        value: data.light?.value || 'Low',
+        status: data.light?.status || 'Connected',
+        label: 'Light level',
+        note: data.light?.value === 'High'
+          ? 'Light level is currently high.'
+          : 'Light level is currently low.'
+      },
       {
         name: 'Temperature sensor',
-        value: data.temperature?.value || '0°C',
+        value: data.temperature?.state || 'Low',
         status: data.temperature?.status || 'Connected',
-        label: 'Temperature level',
-        state: data.temperature?.state || 'Low',
-        progress: data.temperature?.state === 'High' ? '85%' : '35%',
-        last: 'Live',
-        lastLabel: 'Current reading',
-        trend: data.temperature?.state || 'Low',
-        trendLabel: 'Current condition',
+        label: 'Temperature condition',
         note: data.temperature?.state === 'High'
           ? 'Temperature is currently high.'
           : 'Temperature is currently low.'
@@ -1796,12 +1762,6 @@ let sensors = [
         value: data.waterLevel?.value || 'Empty',
         status: data.waterLevel?.status || 'Connected',
         label: 'Water level',
-        state: data.waterLevel?.value || 'Empty',
-        progress: data.waterLevel?.value === 'Full' ? '100%' : '20%',
-        last: 'Live',
-        lastLabel: 'Current reading',
-        trend: data.waterLevel?.value || 'Empty',
-        trendLabel: 'Tank status',
         note: data.waterLevel?.value === 'Full'
           ? 'Water tank is currently full.'
           : 'Water tank is currently empty.'
